@@ -1,0 +1,7 @@
+function main() -> uint8 {
+	 def message = "Hello world";
+	 
+	 // The below should one day be in a std namespace (i.e. std::println)
+	 println("Hello world");
+	 return 0;
+}
