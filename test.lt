@@ -2,6 +2,6 @@ function main() -> uint8 {
 	 def message: String = "Hello world";
 	 
 	 // The below should one day be in a std namespace (i.e. std::println)
-	 println("Hello world");
+	 println(message);
 	 return 0;
 }
