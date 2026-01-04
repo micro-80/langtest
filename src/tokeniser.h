@@ -22,6 +22,6 @@ typedef enum TokenType {
 #undef X
 } TokenType;
 
-const char* to_string(TokenType token);
+const char *to_string(TokenType token);
 
 TokenType *parse_tokens_for_file(FILE *sourceFile);

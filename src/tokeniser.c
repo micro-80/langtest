@@ -25,27 +25,41 @@ bool is_char_delimiter(const char c) {
 }
 
 TokenType tokenise(const char *token) {
-  if (strcmp(token, "def") == 0) return TOKEN_KEYWORD_DEF;
-  else if (strcmp(token, "function") == 0) return TOKEN_KEYWORD_FUNCTION;
-  else if (strcmp(token, "return") == 0) return TOKEN_KEYWORD_RETURN;
-  else if (strcmp(token, "->") == 0) return TOKEN_FUNCTION_DECLARATION_RETURN_INDICATOR;
-  else if (strcmp(token, "{") == 0) return TOKEN_CURLY_BRACE_OPEN;
-  else if (strcmp(token, "}") == 0) return TOKEN_CURLY_BRACE_CLOSE;
-  else if (strcmp(token, "(") == 0) return TOKEN_CURLY_BRACKET_OPEN;
-  else if (strcmp(token, ")") == 0) return TOKEN_CURLY_BRACKET_CLOSE;
-  else if (strcmp(token, ":") == 0) return TOKEN_COLON;
-  else if (strcmp(token, "=") == 0) return TOKEN_EQUALS;
-  else if (strcmp(token, ";") == 0) return TOKEN_SEMI_COLON;
-  else if (isdigit(token[0])) return TOKEN_NUMERIC_LITERAL;
-  else if (token[0] == '"' && token[strlen(token) - 1] == '"') return TOKEN_STRING_LITERAL;
-  else return TOKEN_IDENTIFIER;
+  if (strcmp(token, "def") == 0)
+    return TOKEN_KEYWORD_DEF;
+  else if (strcmp(token, "function") == 0)
+    return TOKEN_KEYWORD_FUNCTION;
+  else if (strcmp(token, "return") == 0)
+    return TOKEN_KEYWORD_RETURN;
+  else if (strcmp(token, "->") == 0)
+    return TOKEN_FUNCTION_DECLARATION_RETURN_INDICATOR;
+  else if (strcmp(token, "{") == 0)
+    return TOKEN_CURLY_BRACE_OPEN;
+  else if (strcmp(token, "}") == 0)
+    return TOKEN_CURLY_BRACE_CLOSE;
+  else if (strcmp(token, "(") == 0)
+    return TOKEN_CURLY_BRACKET_OPEN;
+  else if (strcmp(token, ")") == 0)
+    return TOKEN_CURLY_BRACKET_CLOSE;
+  else if (strcmp(token, ":") == 0)
+    return TOKEN_COLON;
+  else if (strcmp(token, "=") == 0)
+    return TOKEN_EQUALS;
+  else if (strcmp(token, ";") == 0)
+    return TOKEN_SEMI_COLON;
+  else if (isdigit(token[0]))
+    return TOKEN_NUMERIC_LITERAL;
+  else if (token[0] == '"' && token[strlen(token) - 1] == '"')
+    return TOKEN_STRING_LITERAL;
+  else
+    return TOKEN_IDENTIFIER;
 }
 
 TokenType tokenise_delimiter(const char delimiter) {
   const char *tokenised_delimiters = "(){}:=;";
-  
+
   if (strchr(tokenised_delimiters, delimiter) != NULL) {
-    const char delimiter_string[2] = { delimiter, '\0' };
+    const char delimiter_string[2] = {delimiter, '\0'};
     return tokenise(delimiter_string);
   }
   return -1;
@@ -75,8 +89,8 @@ TokenType *parse_tokens_for_file(FILE *source_file) {
       while (is_char_delimiter(buf[cursor]) && cursor < line_length) {
         TokenType tokenised_delimiter = tokenise_delimiter(buf[cursor]);
         if (tokenised_delimiter != -1) {
-	  printf("%s ", to_string(tokenised_delimiter));
-	}
+          printf("%s ", to_string(tokenised_delimiter));
+        }
         cursor++;
       }
       int token_start_cursor = cursor;
@@ -103,14 +117,14 @@ TokenType *parse_tokens_for_file(FILE *source_file) {
         while (buf[cursor++] != '"') {
           if (buf[cursor] == '\n') {
             fprintf(stderr, "Line %i: unterminated string literal", line_count);
-	    exit(1);
-	  }
-	  continue;
+            exit(1);
+          }
+          continue;
         }
-	// TODO: extract into own function
-	int token_length = cursor - token_start_cursor;
-	memcpy(token, &buf[token_start_cursor], token_length);
-	token[token_length] = '\0';
+        // TODO: extract into own function
+        int token_length = cursor - token_start_cursor;
+        memcpy(token, &buf[token_start_cursor], token_length);
+        token[token_length] = '\0';
       }
 
       const TokenType token_type = tokenise(token);
@@ -119,10 +133,10 @@ TokenType *parse_tokens_for_file(FILE *source_file) {
       case TOKEN_IDENTIFIER:
       case TOKEN_STRING_LITERAL:
         printf("%s(%s) ", to_string(tokenise(token)), token);
-	break;
+        break;
       default:
-	printf("%s ", to_string(tokenise(token)));	
-	break;
+        printf("%s ", to_string(tokenise(token)));
+        break;
       }
     }
     printf("\n");
