@@ -1,0 +1,5 @@
+* Langtest
+
+Shockingly I have never made a programming language, nor have I ever programmed anything in C. This is an attmept to fix both at once.
+
+I'm making best effort attempts to do things correctly, but I also just want things to work so there will some quite sloppy code.
